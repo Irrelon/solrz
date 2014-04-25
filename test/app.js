@@ -1,23 +1,7 @@
 // Require the library
 var http = require('http'),
 	Solrz = require('../index'),
-	solrz = new Solrz({
-		/*"server": {
-			"public": {
-				"host": "localhost",
-				"port": 80,
-				"ssl": {
-					"enable": false,
-					"key": "./localhost.key",
-					"cert": "./localhost.crt"
-				}
-			}
-		},*/
-		/*"db": {
-			"connect": "mongodb://localhost/",
-			"options": {}
-		}*/
-	});
+	solrz = new Solrz();
 
 // Create rest routes for collection
 var profile = solrz.rest('profile', {

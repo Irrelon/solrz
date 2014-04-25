@@ -20,15 +20,15 @@
 		"stop": "forever stop index.js"
 	},
 	"options": {
-		"ssl": {
-			"enable": false,
-			"key": "./localhost.key",
-			"cert": "./localhost.crt"
-		},
 		"server": {
-			"clientFacing": {
+			"public": {
 				"host": "localhost",
-				"port": 80
+				"port": 80,
+				"ssl": {
+					"enable": false,
+					"key": "./localhost.key",
+					"cert": "./localhost.crt"
+				}
 			}
 		},
 		"db": {

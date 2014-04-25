@@ -1,0 +1,12 @@
+{
+	"_id": "ObjectId",
+	"firstName": "String",
+	"lastName": "String",
+	"email": "String",
+	"age": "Number",
+	"occupation": "String",
+	"friendCount": "Number",
+	"friends": [{
+		"$model": "friend" 
+	}]
+}

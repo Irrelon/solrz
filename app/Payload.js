@@ -1,4 +1,6 @@
 var Payload = function (obj) {
+	this._view = 'public';
+	
 	for (var i in obj) {
 		if (obj.hasOwnProperty(i)) {
 			this[i] = obj[i];
@@ -8,11 +10,11 @@ var Payload = function (obj) {
 
 Payload.prototype.view = function (val) {
 	if (val !== undefined) {
-		this.view = val;
+		this._view = val;
 		return this;
 	}
 	
-	return this.view;
+	return this._view;
 };
 
 module.exports = Payload;

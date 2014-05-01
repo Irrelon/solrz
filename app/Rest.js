@@ -84,7 +84,7 @@ Rest.prototype.init = function (collection, options) {
 	if (options.views) {
 		for (i in options.views) {
 			if (options.views.hasOwnProperty(i)) {
-				this._views[i] = this.serialiseViewJson(options.views[i]);
+				this._views[i] = options.views[i];
 			}
 		}
 	}
@@ -186,18 +186,13 @@ Rest.prototype._setupCollectionIo = function (collection) {
 				callback(false, payload, data);
 			}],
 			"process": [function (payload, data, callback) {
+				var viewColumns = self._views[payload.view()] || "";
+				
 				// Query the collection
-				if (payload.view) {
-					self._io.collectionModel.find(payload.db.query, self._views[payload.view], function (err, data) {
-						// Pass result back to processor
-						callback(false, payload, data);
-					});
-				} else {
-					self._io.collectionModel.find(payload.db.query, function (err, data) {
-						// Pass result back to processor
-						callback(false, payload, data);
-					});
-				}
+				self._io.collectionModel.find(payload.db.query, viewColumns, function (err, data) {
+					// Pass result back to processor
+					callback(false, payload, data);
+				});
 			}],
 			"out": []
 		},

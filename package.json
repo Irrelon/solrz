@@ -1,6 +1,6 @@
 {
 	"author": "Rob Evans (Irrelon Software Limited)",
-	"name": "irrelon-solrz",
+	"name": "solrz",
 	"description": "Solrz - Application Backend System",
 	"version": "0.0.1",
 	"dependencies": {

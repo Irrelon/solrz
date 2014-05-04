@@ -64,7 +64,7 @@ Rest.prototype.off = function (action, dir, method) {
 /**
  * Generates rest API paths for the passed collection.
  * @param {String} collection The name of the database collection.
- * @param {Object=} 
+ * @param {Object=} options
  */
 Rest.prototype.init = function (collection, options) {
 	var self = this,
@@ -72,7 +72,7 @@ Rest.prototype.init = function (collection, options) {
 		i;
 	
 	if (!options) {
-		throw('No options passed to rest init.');
+		options = {};
 	}
 	
 	this._setupCollectionIo(collection);
@@ -94,7 +94,7 @@ Rest.prototype.init = function (collection, options) {
 		
 	}
 	
-	this._io.collectionSchema = this.db.Schema(schema);
+	this._io.collectionSchema = this.db.Schema(schema, {collection: collection});
 	this._io.collectionModel = this.db.model(collection, this._io.collectionSchema);
 	
 	this.router.post('/' + collection, function (req, res) {
@@ -134,20 +134,18 @@ Rest.prototype._requestIo = function (action, req, res) {
 			callback(false, new self.Payload({
 				"body": req.body || {},
 				"query": req.query || {},
-				"params": req.params || {}
+				"params": req.params || {},
+				"res": res,
+				"req": req
 			}), {});
 		}]
 		.concat(self._io[action]['in'])
 		.concat(self._io[action]['build'])
 		.concat(self._io[action]['process'])
-		.concat(self._io[action]['out']);
+		.concat(self._io[action]['out'])
+		.concat(self._io[action]['send']);
 	
-	self.async.waterfall(callArr, function (err, payload, data) {
-		res.send({
-			err: err,
-			data: data
-		});
-	});
+	self.async.waterfall(callArr, function (err, payload, data) {});
 };
 
 Rest.prototype._setupCollectionIo = function (collection) {
@@ -155,13 +153,17 @@ Rest.prototype._setupCollectionIo = function (collection) {
 	self._io = {
 		"global": {
 			"in": [],
+			"build": [],
 			"process": [],
-			"out": []
+			"out": [],
+			"send": []
 		},
 		"create": {
 			"in": [],
+			"build": [],
 			"process": [],
-			"out": []
+			"out": [],
+			"send": []
 		},
 		"read": {
 			"in": [],
@@ -194,17 +196,27 @@ Rest.prototype._setupCollectionIo = function (collection) {
 					callback(false, payload, data);
 				});
 			}],
-			"out": []
+			"out": [],
+			"send": [function (payload, data, callback) {
+				payload.res.send(data);
+				
+				// Pass result back to processor
+				callback(false, payload, data);
+			}]
 		},
 		"update": {
 			"in": [],
+			"build": [],
 			"process": [],
-			"out": []
+			"out": [],
+			"send": []
 		},
 		"delete": {
 			"in": [],
+			"build": [],
 			"process": [],
-			"out": []
+			"out": [],
+			"send": []
 		}
 	};
 };

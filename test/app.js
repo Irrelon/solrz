@@ -1,7 +1,12 @@
 // Require the library
 var http = require('http'),
 	Solrz = require('../index'),
-	solrz = new Solrz();
+	solrz = new Solrz({
+		"db": {
+			"connect": "mongodb://localhost/orbzu",
+			"options": {}
+		}
+	});
 
 // Create rest routes for collection
 var profile = solrz.rest('profile', {
@@ -12,6 +17,9 @@ var profile = solrz.rest('profile', {
 	}
 });
 
+var stream = solrz.rest('stream');
+
+/*
 // Listen for incoming calls against the profile collection
 profile.on('read', 'in', function (payload, data, callback) {
 	payload.view('public');
@@ -34,3 +42,4 @@ profile.on('create', 'in', function (payload, data, callback) {
 profile.on('create', 'in', function (payload, data, callback) {
 	callback(false, payload, data);
 });
+*/

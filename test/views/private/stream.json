@@ -3,7 +3,5 @@
 	"firstName": 1,
 	"lastName": 1,
 	"age": 1,
-	"email": 1,
-	"createdTs": 1,
-	"updatedTs": 1
+	"email": 1
 }

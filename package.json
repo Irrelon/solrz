@@ -1,7 +1,7 @@
 {
 	"author": "Rob Evans (Irrelon Software Limited)",
 	"name": "irrelon-solrz",
-	"description": "Solrz - Application Backend / Data System",
+	"description": "Solrz - Application Backend / REST System",
 	"version": "0.0.1",
 	"dependencies": {
 		"forever": "*",
@@ -18,24 +18,5 @@
 	"scripts": {
 		"start": "forever start index.js",
 		"stop": "forever stop index.js"
-	},
-	"options": {
-		"server": {
-			"public": {
-				"host": "localhost",
-				"port": 80,
-				"ssl": {
-					"enable": false,
-					"key": "./localhost.key",
-					"cert": "./localhost.crt"
-				}
-			}
-		},
-		"db": {
-			"connect": "mongodb://localhost/test",
-			"options": {
-				
-			}
-		}
 	}
 }
